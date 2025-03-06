@@ -27,13 +27,41 @@
 
 body, html {
   /* background-color: var(--color-neutral-900); */
-  color: var(--color-light);
+  color: var(--light-color);
   font-size: var(--size-font);
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
   background-color: #222; /* Dark background for contrast */
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+#logo {
+    max-width: 100px;
+}
+
+h1 {
+  color: #F56A5C;
+}
+
+.ytb_link {
+  padding: 1% 2%;
+  border-collapse: collapse;
+  border: 0;
+  border-radius: 5px;
+  background: #F56A5C;
+  color: whitesmoke;
+}
+
+button {
+  cursor: pointer;
 }
 
 .cloneable {
@@ -47,7 +75,7 @@ body, html {
 
 .parallax__fade {
   --color-dark-rgb: 0, 0, 0;
-  background: linear-gradient(to top, rgba(var(--color-dark-rgb), 1) 0%, rgba(var(--color-dark-rgb), 0.738) 19%, rgba(var(--color-dark-rgb), 0.541) 34%, rgba(var(--color-dark-rgb), 0.382) 47%, rgba(var(--color-dark-rgb), 0.278) 56.5%, rgba(var(--color-dark-rgb), 0.194) 65%, rgba(var(--color-dark-rgb), 0.126) 73%, rgba(var(--color-dark-rgb), 0.075) 80.2%, rgba(var(--color-dark-rgb), 0.042) 86.1%, rgba(var(--color-dark-rgb), 0.021) 91%, rgba(var(--color-dark-rgb), 0.008) 95.2%, rgba(var(--color-dark-rgb), 0.002) 98.2%, transparent 100%);
+  background: linear-gradient(to top, rgba(var(--color-dark-rgb), 1) 0%, rgba(var(--color-dark-rgb), 0.738) 19%, rgba(var(--color-dark-rgb), 0.541) 34%, rgba(var(--color-dark-rgb), 0.382) 47%, rgba(var(--color-dark-rgb), 0.278) 56.5%, rgba(var(--color-dark-rgb), 0.194) 65%, rgba(var(--color-dark-rgb), 0.126) 73%, rgba(var(--color-dark-rgb), 0.075) 80.2%, rgba(var(--color-dark-rgb), 0.042) 86.1%, rgba(var(--color-dark-rgb), 0.021) 91%, rgba(var(--color-dark-rgb), 0.008) 95.2%, transparent 100%);
 }
 
 .osmo-icon-svg {
@@ -69,6 +97,7 @@ body, html {
   width: 100%;
   position: relative;
   overflow: hidden;
+  margin-top: 140px;
 }
 
 .parallax__content {
@@ -116,7 +145,7 @@ body, html {
   object-fit: cover;
   width: 100%;
   max-width: none;
-  height: 100%;
+  height: 110%;
   position: absolute;
   top: 0;
   left: 0;
@@ -311,7 +340,6 @@ nav ul li a:hover {
 /* Structure générale des sections */
 section {
   padding: var(--section-padding);
-  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -386,50 +414,132 @@ h3 {
 }
 
 /* Section Vidéo */
+.video-section {
+  color: var(--light-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.video-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  z-index: 1;
+}
+
+.video-section .section-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.video-section h2 {
+  color: var(--primary-color);
+  text-shadow: none;
+}
+
 .video-container {
   width: 100%;
-  margin-bottom: 30px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 1s ease-out 0.6s forwards, floatingMain 6s ease-in-out 1.6s infinite, glowMain 6s ease-in-out 1.6s infinite;
+  margin-top: 20px;
+  transform-origin: center center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.video-container:hover {
+  animation-play-state: paused;
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(42, 183, 176, 0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .video-placeholder {
-  background-color: #2AB7B0;
-  border-radius: 8px;
-  height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--light-color);
-  font-size: 1.5rem;
-  border: 2px dashed var(--accent-color);
-  cursor: pointer;
-  transition: var(--transition);
-  overflow: hidden;
-  transform: scale(0.95);
-  opacity: 0;
-  animation: zoomIn 1s ease-out 0.4s forwards;
-}
-
-@keyframes zoomIn {
-  from {
-      opacity: 0;
-      transform: scale(0.95);
-  }
-  to {
-      opacity: 1;
-      transform: scale(1);
-  }
-}
-
-.video-placeholder:hover {
-  background-color: #1A8A84;
-  border-color: var(--secondary-color);
-  transform: scale(1.02);
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+  position: relative;
+  background-color: #000;
 }
 
 .video-placeholder iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   border: none;
+}
+
+.video-section .text-block {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease-out 0.3s forwards, floatingText 5s ease-in-out 1.3s infinite, glowText 5s ease-in-out 1.3s infinite;
+  border-left: 4px solid var(--accent-color);
+  transform-origin: center center;
+}
+
+.video-section .text-block:hover {
+  animation-play-state: paused;
+  transform: translateY(-5px) scale(1.01);
+  box-shadow: 0 10px 30px rgba(42, 183, 176, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.video-section .text-block h3 {
+  color: var(--primary-color);
+  margin-bottom: 20px;
+}
+
+@keyframes floatingText {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(-0.3deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+@keyframes glowText {
+  0% {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 8px 25px rgba(42, 183, 176, 0.3);
+  }
+  100% {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@media (max-width: 768px) {
+  .video-section .section-content {
+    gap: 20px;
+  }
+  
+  .video-container {
+    margin-top: 10px;
+  }
+  
+  .video-section .text-block {
+    padding: 20px;
+  }
 }
 
 /* Section Personnage */
@@ -559,11 +669,11 @@ h3 {
 }
 
 .troubles-container:nth-child(3) {
-  animation-delay: 0.4s;
+  animation-delay: 0.2s;
 }
 
 .troubles-container:nth-child(4) {
-  animation-delay: 0.6s;
+  animation-delay: 0.2s;
 }
 
 .troubles-container.reversed {
@@ -660,17 +770,13 @@ h3 {
 
 /* Footer */
 footer {
-  background-color: var(--dark-color);
   color: var(--light-color);
   text-align: center;
   padding: 20px;
-  animation: fadeInUp 0.8s ease-out;
 }
 
 /* Animations */
 .animate-on-scroll {
-  opacity: 0;
-  transform: translateY(30px);
   transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
@@ -820,27 +926,6 @@ h2#captain_america_title{
   letter-spacing: 0.05em;
 }
 
-/* --- Depression, PTSD & Anxiety Effects --- */
-
-/* The following rules ensure that when the depression, PTSD, or anxiety effects are active,
-   only the relevant card remains unaffected while the rest of the troubles-section is styled differently. */
-
-body.depression-effect-active > * {
-  filter: blur(5px) grayscale(100%);
-  transition: filter 0.5s ease;
-}
-body.depression-effect-active #depression-card,
-body.depression-effect-active .depression-card,
-body.depression-effect-active #depression-card *,
-body.depression-effect-active .depression-card *,
-body.depression-effect-active .troubles-container,
-body.depression-effect-active #depression-text,
-body.depression-effect-active .depression-text,
-body.depression-effect-active #depression-text *,
-body.depression-effect-active .depression-text * {
-  filter: none !important;
-}
-
 /* --- PTSD Styles --- */
 .ptsd-card {
   position: relative;
@@ -893,6 +978,71 @@ body.depression-effect-active .depression-text * {
   animation: none;
 }
 
+/* Ajout des animations de tremblement pour l'anxiété */
+@keyframes anxiety-shake {
+  0% { transform: translate(0, 0); }
+  10% { transform: translate(-5px, 0); }
+  20% { transform: translate(5px, 0); }
+  30% { transform: translate(-5px, 0); }
+  40% { transform: translate(5px, 0); }
+  50% { transform: translate(-5px, 0); }
+  60% { transform: translate(5px, 0); }
+  70% { transform: translate(-5px, 0); }
+  80% { transform: translate(5px, 0); }
+  90% { transform: translate(-5px, 0); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes anxiety-text-shake {
+  0% { transform: translate(0, 0); }
+  10% { transform: translate(-3px, 0); }
+  20% { transform: translate(3px, 0); }
+  30% { transform: translate(-3px, 0); }
+  40% { transform: translate(3px, 0); }
+  50% { transform: translate(-3px, 0); }
+  60% { transform: translate(3px, 0); }
+  70% { transform: translate(-3px, 0); }
+  80% { transform: translate(3px, 0); }
+  90% { transform: translate(-3px, 0); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Règles pour l'effet d'anxiété inversé - Version simplifiée */
+/* Appliquer l'effet de tremblement à tous les éléments de la section des troubles */
+.troubles-section.anxiety-effect-active .trouble-card,
+.troubles-section.anxiety-effect-active .text-block {
+  animation: anxiety-shake 0.15s infinite;
+}
+
+.troubles-section.anxiety-effect-active .trouble-card h3,
+.troubles-section.anxiety-effect-active .trouble-card p,
+.troubles-section.anxiety-effect-active .text-block h3,
+.troubles-section.anxiety-effect-active .text-block p {
+  animation: anxiety-text-shake 0.1s infinite;
+}
+
+/* S'assurer que le bloc d'anxiété et les éléments associés restent immobiles */
+.troubles-section.anxiety-effect-active .anxiety-card,
+.troubles-section.anxiety-effect-active .anxiety-card ~ .text-block,
+.troubles-section.anxiety-effect-active .text-block ~ .anxiety-card,
+.troubles-section.anxiety-effect-active .anxiety-text-block {
+  animation: none !important;
+  transform: none !important;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.troubles-section.anxiety-effect-active .anxiety-card h3,
+.troubles-section.anxiety-effect-active .anxiety-card p,
+.troubles-section.anxiety-effect-active .anxiety-card ~ .text-block h3,
+.troubles-section.anxiety-effect-active .anxiety-card ~ .text-block p,
+.troubles-section.anxiety-effect-active .text-block ~ .anxiety-card h3,
+.troubles-section.anxiety-effect-active .text-block ~ .anxiety-card p,
+.troubles-section.anxiety-effect-active .anxiety-text-block h3,
+.troubles-section.anxiety-effect-active .anxiety-text-block p {
+  animation: none !important;
+  transform: none !important;
+}
+
 /* --- Particle Canvas --- */
 canvas {
   position: fixed;
@@ -919,6 +1069,148 @@ canvas {
   100% { left: 50px;  top: 150px; }
 }
 
+.toggle-effects-btn {
+  padding: 10px 20px;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  margin-top: 5%;
+  background: var(--primary-color);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(to right, #4CAF50, #2E7D32); /* Dégradé vert */
+  z-index: 1;
+}
+
+/* Animation d'ondulation pour le bouton */
+.toggle-effects-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.2);
+  transition: all 0.4s ease;
+  z-index: -1;
+}
+
+.toggle-effects-btn:hover::before {
+  left: 100%;
+}
+
+.toggle-effects-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.toggle-effects-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Style pour le bouton quand les effets sont désactivés */
+.toggle-effects-btn.effects-disabled {
+  background: linear-gradient(to right, #F44336, #C62828); /* Dégradé rouge */
+  animation: pulse-red 2s infinite;
+}
+
+/* Animation de pulsation pour le bouton rouge */
+@keyframes pulse-red {
+  0% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(244, 67, 54, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0); }
+}
+
+/* Animation de pulsation pour le bouton vert */
+@keyframes pulse-green {
+  0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+}
+
+/* Ajouter l'animation de pulsation au bouton normal */
+.toggle-effects-btn:not(.effects-disabled) {
+  animation: pulse-green 2s infinite;
+}
+
+/* Animation de clic pour le bouton */
+.toggle-effects-btn.button-clicked {
+  animation: button-click 0.3s forwards;
+}
+
+@keyframes button-click {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+/* Style pour le mode avec effets désactivés */
+.effects-disabled-mode .trouble-card,
+.effects-disabled-mode .text-block {
+  animation: none !important;
+  transform: none !important;
+  filter: none !important;
+  transition: none !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
+}
+
+.effects-disabled-mode .trouble-card::before,
+.effects-disabled-mode .text-block::before,
+.effects-disabled-mode .troubles-section::after {
+  display: none !important;
+}
+
+/* --- Effet de dépression --- */
+/* Keyframes pour l'ondulation */
+@keyframes depression-wave {
+  0% { transform: translateY(0) skew(0deg, 0deg); }
+  25% { transform: translateY(5px) skew(1deg, 0.5deg); }
+  50% { transform: translateY(10px) skew(-0.5deg, -0.5deg); }
+  75% { transform: translateY(8px) skew(-1deg, 0.5deg); }
+  100% { transform: translateY(10px) skew(0deg, 0deg); }
+}
+
+/* Transition de base pour tous les éléments */
+.troubles-section .trouble-card,
+.troubles-section .text-block {
+  transition: transform 0.8s ease, filter 0.8s ease, opacity 0.8s ease, box-shadow 0.8s ease;
+}
+
+/* Effet de dépression sur tous les éléments sauf le bloc de dépression et son voisin */
+.troubles-section.depression-effect-active .trouble-card:not(.depression-card),
+.troubles-section.depression-effect-active .text-block:not(.depression-text) {
+  animation: depression-wave 4s ease-in-out infinite;
+  filter: blur(2px) brightness(0.8);
+  opacity: 0.7;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Effet sur le texte à l'intérieur des éléments affectés */
+.troubles-section.depression-effect-active .trouble-card:not(.depression-card) h3,
+.troubles-section.depression-effect-active .trouble-card:not(.depression-card) p,
+.troubles-section.depression-effect-active .text-block:not(.depression-text) h3,
+.troubles-section.depression-effect-active .text-block:not(.depression-text) p {
+  filter: blur(1px);
+  opacity: 0.8;
+  transition: filter 0.8s ease, opacity 0.8s ease;
+}
+
+/* Mise en évidence du bloc de dépression et de son voisin */
+.troubles-section.depression-effect-active .depression-card,
+.troubles-section.depression-effect-active .depression-text {
+  transform: scale(1.02);
+  filter: brightness(1.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  z-index: 2;
+  position: relative;
+  transition: transform 0.5s ease, filter 0.5s ease, box-shadow 0.5s ease;
+}
+
 .cta_button {
   padding: 2% 3%;
   border-collapse: collapse;
@@ -926,4 +1218,406 @@ canvas {
   border-radius: 5px;
   margin-top: 5%;
   background: var(--primary-color);
+}
+
+/* --- Effet PTSD - Rémanence et flashback subtil --- */
+@keyframes ptsd-slow-motion {
+  0% { transform: scale(1); filter: brightness(1); }
+  15% { transform: scale(1.005); filter: brightness(0.9); }
+  30% { transform: scale(1.002); filter: brightness(0.95); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+@keyframes ptsd-irregular-vibration {
+  0% { transform: translate(0, 0); }
+  10% { transform: translate(-1px, 0.5px); }
+  25% { transform: translate(0.7px, -0.3px); }
+  40% { transform: translate(-0.5px, 0.2px); }
+  55% { transform: translate(0.3px, -0.5px); }
+  70% { transform: translate(-0.2px, 0.7px); }
+  85% { transform: translate(0.5px, -0.2px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes ptsd-shadow-pulse {
+  0% { box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); }
+  50% { box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); }
+  100% { box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); }
+}
+
+@keyframes ptsd-halo-shift {
+  0% { text-shadow: 0 0 0 transparent; }
+  25% { text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.3), -1px -1px 3px rgba(0, 0, 0, 0.3); }
+  50% { text-shadow: -1px 1px 3px rgba(255, 255, 255, 0.2), 1px -1px 3px rgba(0, 0, 0, 0.2); }
+  75% { text-shadow: 1px -1px 3px rgba(255, 255, 255, 0.3), -1px 1px 3px rgba(0, 0, 0, 0.3); }
+  100% { text-shadow: 0 0 0 transparent; }
+}
+
+/* Effet de base sur tous les éléments sauf le bloc PTSD */
+.troubles-section.ptsd-effect-active .trouble-card:not(.ptsd-card),
+.troubles-section.ptsd-effect-active .text-block:not(.ptsd-text) {
+  position: relative;
+  animation: ptsd-slow-motion 3s ease-in-out forwards, ptsd-irregular-vibration 2s 1s infinite alternate;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  transition: all 1.5s ease;
+  filter: brightness(0.95);
+  overflow: hidden;
+}
+
+/* Effet de rémanence fantomatique avec pseudo-élément */
+.troubles-section.ptsd-effect-active .trouble-card:not(.ptsd-card)::before,
+.troubles-section.ptsd-effect-active .text-block:not(.ptsd-text)::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.2;
+  filter: blur(1px) saturate(1.2);
+  z-index: -1;
+  transform: scale(1.01) translate(2px, 1px);
+  transition: all 1.5s ease;
+}
+
+/* Effet sur le texte */
+.troubles-section.ptsd-effect-active .trouble-card:not(.ptsd-card) h3,
+.troubles-section.ptsd-effect-active .trouble-card:not(.ptsd-card) p,
+.troubles-section.ptsd-effect-active .text-block:not(.ptsd-text) h3,
+.troubles-section.ptsd-effect-active .text-block:not(.ptsd-text) p {
+  position: relative;
+  animation: ptsd-halo-shift 4s infinite alternate;
+  transition: all 1.5s ease;
+}
+
+/* Mise en évidence du bloc PTSD */
+.troubles-section.ptsd-effect-active .ptsd-card,
+.troubles-section.ptsd-effect-active .ptsd-text {
+  transform: scale(1.01);
+  filter: brightness(1.05);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+  z-index: 2;
+  position: relative;
+  transition: all 0.5s ease;
+  animation: ptsd-shadow-pulse 3s infinite;
+}
+
+/* Effet de vignette subtil sur toute la section */
+.troubles-section.ptsd-effect-active {
+  position: relative;
+}
+
+.troubles-section.ptsd-effect-active::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, transparent 70%, rgba(0, 0, 0, 0.2) 100%);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  animation: ptsd-vignette 3s forwards;
+}
+
+@keyframes ptsd-vignette {
+  0% { opacity: 0; }
+  30% { opacity: 0.3; }
+  70% { opacity: 0.5; }
+  100% { opacity: 0.4; }
+}
+
+/* Style pour l'en-tête de section avec le bouton */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.section-header h2 {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .toggle-effects-btn {
+    margin-top: 15px;
+    width: 100%;
+  }
+}
+
+/* Section Shorts YouTube */
+.shorts-section {
+  padding-bottom: 60px;
+  background-color: transparent;
+}
+
+.shorts-intro {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 40px;
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  opacity: 0;
+  animation: fadeIn 1s ease-out 0.3s forwards;
+}
+
+.shorts-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.short-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transform-origin: center center;
+}
+
+.short-item:nth-child(1) {
+  animation: fadeInUp 0.8s ease-out 0.3s forwards, floating1 5s ease-in-out 0.3s infinite, glow 5s ease-in-out 0.3s infinite;
+}
+
+.short-item:nth-child(2) {
+  animation: fadeInUp 0.8s ease-out 0.5s forwards, floating2 4.5s ease-in-out 0.5s infinite, glow 4.5s ease-in-out 0.5s infinite;
+}
+
+.short-item:nth-child(3) {
+  animation: fadeInUp 0.8s ease-out 0.7s forwards, floating3 5.2s ease-in-out 0.7s infinite, glow 5.2s ease-in-out 0.7s infinite;
+}
+
+.short-item:hover {
+  animation-play-state: paused;
+  transform: translateY(-15px) scale(1.03);
+  box-shadow: 0 15px 30px rgba(42, 183, 176, 0.4);
+}
+
+.short-item.short-hovered {
+  transform: translateY(-15px) scale(1.03);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.short-item.short-hovered .short-info {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.short-item.short-hovered h3 {
+  color: var(--accent-color);
+}
+
+.short-video {
+  position: relative;
+  padding-bottom: 177.77%; /* Ratio pour format Short (9:16) */
+  height: 0;
+  overflow: hidden;
+}
+
+.short-video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.short-info {
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.05);
+  height: 100%;
+}
+
+.short-info h3 {
+  color: var(--primary-color);
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.short-info p {
+  color: var(--light-color);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .shorts-container {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+  }
+  
+  .short-item {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}
+
+.shorts-section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.shorts-section.shorts-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.short-item.short-clicked {
+  transform: scale(0.95) !important;
+  transition: transform 0.2s ease !important;
+}
+
+.short-item.short-clicked .short-video::before {
+  transform: translate(-50%, -50%) scale(0.9) !important;
+  background-color: rgba(42, 183, 176, 0.9) !important;
+  transition: transform 0.2s ease, background-color 0.2s ease !important;
+}
+
+/* Transition pour les effets de survol */
+.short-item {
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+              box-shadow 0.4s ease, 
+              opacity 0.3s ease,
+              filter 0.3s ease;
+}
+
+.short-item:hover::before,
+.short-item:hover::after,
+.short-item:hover .short-video::before,
+.short-item.short-clicked,
+.short-item.short-clicked::before,
+.short-item.short-clicked .short-video::before {
+  display: none;
+}
+
+@keyframes floating1 {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+@keyframes floating2 {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(-1deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+@keyframes floating3 {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(0.5deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    box-shadow: 0 5px 25px rgba(42, 183, 176, 0.3);
+  }
+  100% {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@keyframes floatingMain {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(0.5deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+@keyframes glowMain {
+  0% {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+  50% {
+    box-shadow: 0 15px 40px rgba(42, 183, 176, 0.5);
+  }
+  100% {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Section globale */
+#section-avis {
+  padding: 40px;
+  text-align: center;
+  display: grid;
+}
+
+/* Titre de la section */
+#section-avis h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+/* Conteneur des avis en disposition flex */
+.avis-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Carte de chaque avis */
+.avis-item {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+}
+
+/* Style du texte de l'avis */
+.avis-texte {
+  font-style: italic;
+  margin-bottom: 15px;
+}
+
+/* Style du nom de l'auteur */
+.avis-auteur {
+  font-weight: bold;
+  color: #333;
 }

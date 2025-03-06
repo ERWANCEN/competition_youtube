@@ -41,14 +41,16 @@ gsap.ticker.lagSmoothing(0);
 document.addEventListener('DOMContentLoaded', function() {
   // Header scroll animation
   const header = document.querySelector('header');
-  const scrollThreshold = 50;
-  window.addEventListener('scroll', function() {
-    if (window.scrollY > scrollThreshold) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
-    }
-  });
+  if (header) { 
+    const scrollThreshold = 50;
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > scrollThreshold) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+  }
 
   // Section scroll animations
   const sections = document.querySelectorAll('section');
@@ -112,7 +114,11 @@ document.addEventListener('DOMContentLoaded', function() {
       depressionTroublesSection.classList.add('depression-effect-active');
     });
     depressionCard.addEventListener('mouseleave', function() {
-      depressionTroublesSection.classList.remove('depression-effect-active');
+      // Utiliser setTimeout pour créer un délai avant de retirer la classe
+      // Cela permet une transition plus douce à la sortie
+      setTimeout(() => {
+        depressionTroublesSection.classList.remove('depression-effect-active');
+      }, 100);
     });
   }
 
@@ -120,9 +126,13 @@ document.addEventListener('DOMContentLoaded', function() {
   const ptsdCard = document.getElementById('ptsd-card');
   const heartbeatSound = document.getElementById('heartbeat-sound');
   const ptsdTroublesSection = document.querySelector('.troubles-section');
+  
   if (ptsdCard && heartbeatSound && ptsdTroublesSection) {
-    heartbeatSound.volume = 0.5;
+    heartbeatSound.volume = 0.4; // Volume légèrement réduit pour être moins intrusif
+    
+    // Fonction pour gérer l'entrée de la souris sur le bloc PTSD
     ptsdCard.addEventListener('mouseenter', function() {
+      // Jouer le son de battement de cœur
       if (!document.body.classList.contains('effects-disabled-mode')) {
         heartbeatSound.currentTime = 0;
         const playPromise = heartbeatSound.play();
@@ -130,15 +140,35 @@ document.addEventListener('DOMContentLoaded', function() {
           playPromise.catch(error => { console.log("La lecture automatique a été bloquée par le navigateur."); });
         }
       }
+      
+      // Ajouter la classe pour activer l'effet
       ptsdTroublesSection.classList.add('ptsd-effect-active');
     });
+    
+    // Fonction pour gérer la sortie de la souris du bloc PTSD
     ptsdCard.addEventListener('mouseleave', function() {
+      // Arrêter le son de battement de cœur avec un fade out
       if (!heartbeatSound.paused) {
-        heartbeatSound.pause();
-        heartbeatSound.currentTime = 0;
+        // Créer un fade out du son
+        const fadeOutInterval = setInterval(function() {
+          if (heartbeatSound.volume > 0.05) {
+            heartbeatSound.volume -= 0.05;
+          } else {
+            heartbeatSound.pause();
+            heartbeatSound.currentTime = 0;
+            heartbeatSound.volume = 0.4; // Réinitialiser le volume
+            clearInterval(fadeOutInterval);
+          }
+        }, 50);
       }
-      ptsdTroublesSection.classList.remove('ptsd-effect-active');
+      
+      // Retirer la classe avec un délai pour une transition plus douce
+      setTimeout(() => {
+        ptsdTroublesSection.classList.remove('ptsd-effect-active');
+      }, 1500); // Délai plus long pour un retour plus progressif à la normale
     });
+    
+    // Initialiser l'audio pour éviter les problèmes d'autoplay
     document.addEventListener('click', function initAudio() {
       heartbeatSound.play().then(() => {
         heartbeatSound.pause();
@@ -200,30 +230,108 @@ document.addEventListener('DOMContentLoaded', function() {
   // ----- Toggle Effects Button -----
   const toggleEffectsBtn = document.getElementById('toggle-effects');
   if (toggleEffectsBtn) {
+    // Vérifier si l'état est enregistré dans le localStorage
     const effectsDisabled = localStorage.getItem('effectsDisabled') === 'true';
+    
+    // Appliquer l'état initial
     if (effectsDisabled) {
       document.body.classList.add('effects-disabled-mode');
       toggleEffectsBtn.classList.add('effects-disabled');
       toggleEffectsBtn.textContent = 'Augmenter l\'effet';
-      document.querySelectorAll('audio').forEach(audio => { audio.pause(); audio.currentTime = 0; });
+      // Arrêter tous les sons
+      document.querySelectorAll('audio').forEach(audio => { 
+        audio.pause(); 
+        audio.currentTime = 0; 
+      });
+    } else {
+      // S'assurer que le bouton est dans l'état correct
+      document.body.classList.remove('effects-disabled-mode');
+      toggleEffectsBtn.classList.remove('effects-disabled');
+      toggleEffectsBtn.textContent = 'Réduire l\'effet';
     }
+    
+    // Ajouter l'écouteur d'événement avec animation
     toggleEffectsBtn.addEventListener('click', function() {
       const isCurrentlyDisabled = document.body.classList.contains('effects-disabled-mode');
+      
+      // Animation du bouton au clic
+      this.classList.add('button-clicked');
+      setTimeout(() => {
+        this.classList.remove('button-clicked');
+      }, 300);
+      
       if (isCurrentlyDisabled) {
+        // Activer les effets
         document.body.classList.remove('effects-disabled-mode');
         toggleEffectsBtn.classList.remove('effects-disabled');
         toggleEffectsBtn.textContent = 'Réduire l\'effet';
         localStorage.setItem('effectsDisabled', 'false');
+        
+        // Animation de transition
+        document.querySelectorAll('.trouble-card, .text-block').forEach(el => {
+          el.style.transition = 'all 0.5s ease';
+        });
       } else {
+        // Désactiver les effets
         document.body.classList.add('effects-disabled-mode');
         toggleEffectsBtn.classList.add('effects-disabled');
         toggleEffectsBtn.textContent = 'Augmenter l\'effet';
         localStorage.setItem('effectsDisabled', 'true');
+        
+        // Arrêter tous les sons
+        document.querySelectorAll('audio').forEach(audio => { 
+          audio.pause(); 
+          audio.currentTime = 0; 
+        });
       }
-      document.querySelectorAll('audio').forEach(audio => { audio.pause(); audio.currentTime = 0; });
     });
   }
+
+  // ----- Animation pour les Shorts YouTube -----
+  const shortItems = document.querySelectorAll('.short-item');
+  
+  shortItems.forEach((item, index) => {
+    // Ajouter un délai progressif pour l'apparition
+    item.style.animationDelay = `${0.3 + (index * 0.2)}s`;
+    
+    // Ajouter un effet de survol avec classe
+    item.addEventListener('mouseenter', function() {
+      this.classList.add('short-hovered');
+    });
+    
+    item.addEventListener('mouseleave', function() {
+      this.classList.remove('short-hovered');
+    });
+  });
+  
+  // Observer pour les animations au scroll
+  const shortsSection = document.querySelector('.shorts-section');
+  if (shortsSection) {
+    const shortsSectionObserver = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        shortsSection.classList.add('shorts-visible');
+      }
+    }, {
+      threshold: 0.2
+    });
+    
+    shortsSectionObserver.observe(shortsSection);
+  }
 });
+
+// ----- Suppression des erreurs de console liées aux publicités -----
+// Intercepter les erreurs de console liées aux bloqueurs de publicités
+const originalConsoleError = console.error;
+console.error = function() {
+  // Filtrer les erreurs liées à googleads ou doubleclick
+  if (arguments[0] && typeof arguments[0] === 'string' && 
+      (arguments[0].includes('googleads') || arguments[0].includes('doubleclick'))) {
+    // Ne pas afficher ces erreurs
+    return;
+  }
+  // Sinon, utiliser le comportement normal
+  return originalConsoleError.apply(console, arguments);
+};
 
 /* ---------- Particle Background (Ashes) ---------- */
 const canvas = document.getElementById('particleCanvas');
