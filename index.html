@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' https://cdn.prod.website-files.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com; connect-src 'self';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' https://cdn.prod.website-files.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com; connect-src 'self';">
   <title>Troubles Psychologiques</title>
   <link rel="stylesheet" href="assets/css/style.css" />
   <script src="https://cdn.tailwindcss.com"></script>
@@ -12,9 +12,10 @@
     <header>
         <img id="logo" src="assets/img/logo-ytb.webp" alt="Logo de la chaine YouTube Psytheque">
         <h1>Psythèque</h1>
-        <button class="ytb_link"><a href="https://www.youtube.com/@psytheque">Visiter la chaine</a></button>
+        <button class="ytb_link"><a href="https://www.youtube.com/@psytheque" target="_blank" rel="noopener noreferrer">Visiter la chaine</a></button>
     </header>
-  <!-- --------- Parallax existant (inchangé) --------- -->
+  <!-- --------- Parallax existant (inchangé) --------- -->+
+    
   <div class="parallax">
     <section class="parallax__header">
       <div class="parallax__visuals">
@@ -61,14 +62,14 @@
             <div class="personnage-container">
                 <div class="personnage-image">
                     <div class="image-container">
-                        <img src="assets/img/captain_america_06.webp" alt="Captain America LEGO" class="character-img">
+                        <img src="assets/img/captain amercia-Photoroom.png" alt="Captain America LEGO" class="character-img">
                     </div>
                 </div>
                 <div class="text-block">
                     <h3>Découvrez notre protagoniste</h3>
                     <p>Notre personnage principal incarne les défis quotidiens auxquels sont confrontées les personnes souffrant de troubles psychologiques. À travers son parcours, nous explorons les hauts et les bas, les victoires et les défis qui caractérisent la vie avec un trouble mental.</p>
                     <p>Cette représentation vise à créer de l'empathie et à montrer que, malgré les difficultés, il est possible de trouver de la force et du soutien.</p>
-                    <button class="cta_button" src="https://www.youtube-nocookie.com/embed/B1x0OrLvYU0?si=-iA_K5oj5fCpC2x7">Voir la vidéo YouTube</button>
+                    <a href="https://www.youtube-nocookie.com/embed/B1x0OrLvYU0?si=-iA_K5oj5fCpC2x7" target="_blank" rel="noopener noreferrer"><button class="effect-btn">Voir la vidéo YouTube</button></a>
                 </div>
             </div>
         </div>
@@ -81,7 +82,9 @@
             <div class="section-header">
                 <h2>Ses troubles psychologiques</h2>
                 <div class="section-divider"></div>
-                <!-- <button id="toggle-effects" class="toggle-effects-btn">Réduire l'effet</button> -->
+                <div class="effect-controls">
+                    <button id="adjust-effects" class="effect-btn">Réduire l'effet</button>
+                </div>
             </div>
             
             <div class="troubles-container">
@@ -202,7 +205,7 @@
 </section>
 
 <section id="section-avis">
-    <h2>Avis de nos clients</h2>
+    <h2>Commentaires</h2>
     <div class="avis-container">
       <div class="avis-item">
         <p class="avis-texte">"Toujours un plaisir de regarder vos vidéos ! Votre contenu est d’une grande qualité et très bien travaillé 👏🔥"</p>
@@ -221,7 +224,67 @@
   
 
 <footer>
-    <p>&copy; 2025 Compétition YouTube - Troubles Psychologiques. Tous droits réservés.</p>
+    <div class="footer-content">
+        <div class="copyright">
+            <p>&copy; 2025 Compétition YouTube - Troubles Psychologiques. Tous droits réservés.</p>
+        </div>
+        <div class="legal">
+            <h4>Mentions légales</h4>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <span>À propos de Psythèque</span>
+                        <i class="accordion-icon">+</i>
+                    </button>
+                    <div class="accordion-content">
+                        <p><strong>Psythèque</strong> - Projet éducatif sur les troubles psychologiques</p>
+                        <p>Ce site a été créé dans le cadre d'une compétition YouTube pour sensibiliser aux différents troubles psychologiques.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <span>Responsable et contact</span>
+                        <i class="accordion-icon">+</i>
+                    </button>
+                    <div class="accordion-content">
+                        <p><strong>Responsable du site :</strong> Psythèque</p>
+                        <p><strong>Contact :</strong> <a href="mailto:contact@psytheque.fr">contact@psytheque.fr</a></p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <span>Hébergement</span>
+                        <i class="accordion-icon">+</i>
+                    </button>
+                    <div class="accordion-content">
+                        <p><strong>Hébergement :</strong> Ce site est hébergé par [Nom de l'hébergeur], [Adresse de l'hébergeur]</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <span>Propriété intellectuelle</span>
+                        <i class="accordion-icon">+</i>
+                    </button>
+                    <div class="accordion-content">
+                        <p>L'ensemble du contenu de ce site (textes, images, vidéos) est la propriété exclusive de Psythèque ou de ses partenaires. Toute reproduction sans autorisation est interdite.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <span>Données personnelles</span>
+                        <i class="accordion-icon">+</i>
+                    </button>
+                    <div class="accordion-content">
+                        <p>Aucune donnée personnelle n'est collectée lors de votre visite sur ce site.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </footer>
   
   

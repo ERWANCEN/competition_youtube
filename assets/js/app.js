@@ -203,6 +203,138 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // Effet de tremblement au survol du bloc anxiété
+  const anxietyTextBlock = document.querySelector('.anxiety-text-block');
+  
+  if (anxietyCard && anxietyTextBlock) {
+    console.log("Anxiety card and text block found");
+    
+    // Variables pour contrôler l'intensité et l'activation des effets
+    let effectsEnabled = true;
+    let effectIntensity = 1; // 1 = normal, 0.5 = réduit, 2 = augmenté
+
+    // Fonction pour ajouter l'effet de tremblement
+    function addShakeEffect() {
+      if (!effectsEnabled) return;
+      
+      console.log("Adding shake effect with intensity:", effectIntensity);
+      document.querySelectorAll('.trouble-card, .text-block').forEach(element => {
+        // Ne pas appliquer l'effet au bloc anxiété et à son voisin de droite
+        if (element === anxietyCard || element === anxietyTextBlock || 
+            element === anxietyCard.nextElementSibling || element === anxietyTextBlock.nextElementSibling) {
+          console.log("Skipping element:", element);
+          return;
+        }
+        
+        // Ajouter la classe de tremblement
+        element.classList.add('anxiety-shake-effect');
+        
+        // Appliquer l'intensité actuelle
+        element.style.setProperty('--shake-intensity', effectIntensity);
+        
+        // Ajouter la classe de tremblement au texte à l'intérieur
+        element.querySelectorAll('h3, p').forEach(textElement => {
+          textElement.classList.add('anxiety-text-shake-effect');
+          textElement.style.setProperty('--text-shake-intensity', effectIntensity);
+        });
+      });
+    }
+    
+    // Fonction pour supprimer l'effet de tremblement
+    function removeShakeEffect() {
+      console.log("Removing shake effect");
+      document.querySelectorAll('.trouble-card, .text-block').forEach(element => {
+        // Supprimer la classe de tremblement
+        element.classList.remove('anxiety-shake-effect');
+        
+        // Supprimer la classe de tremblement du texte à l'intérieur
+        element.querySelectorAll('h3, p').forEach(textElement => {
+          textElement.classList.remove('anxiety-text-shake-effect');
+        });
+      });
+    }
+    
+    // Ajouter les écouteurs d'événements pour le survol
+    anxietyCard.addEventListener('mouseenter', addShakeEffect);
+    anxietyCard.addEventListener('mouseleave', removeShakeEffect);
+    // On ne met pas d'écouteur d'événement sur le bloc "Vivre avec l'anxiété"
+    // anxietyTextBlock.addEventListener('mouseenter', addShakeEffect);
+    // anxietyTextBlock.addEventListener('mouseleave', removeShakeEffect);
+
+    // Gestion des boutons de contrôle des effets
+    const adjustEffectsBtn = document.getElementById('adjust-effects');
+
+    if (adjustEffectsBtn) {
+      // Bouton pour ajuster l'intensité des effets
+      adjustEffectsBtn.addEventListener('click', function() {
+        // Cycle entre les intensités : normal -> réduit -> augmenté -> normal
+        if (effectIntensity === 1) {
+          effectIntensity = 0.5;
+          this.textContent = 'Augmenter l\'effet';
+        } else if (effectIntensity === 0.5) {
+          effectIntensity = 2;
+          this.textContent = 'Réduire l\'effet';
+        } else {
+          effectIntensity = 1;
+          this.textContent = 'Réduire l\'effet';
+        }
+        
+        this.classList.toggle('active');
+        
+        // Mettre à jour les effets si actuellement affichés
+        if (anxietyCard.matches(':hover') || anxietyTextBlock.matches(':hover')) {
+          removeShakeEffect();
+          addShakeEffect();
+        }
+      });
+    }
+  }
+
+  // Effet de distorsion pour la dépression
+  function setupDepressionEffect() {
+    const depressionCard = document.querySelector('.depression-card');
+    const depressionText = document.querySelector('.depression-text');
+    
+    if (depressionCard && depressionText) {
+      console.log("Depression card and text found");
+      
+      // Fonction pour ajouter l'effet de distorsion
+      function addDistortionEffect() {
+        console.log("Adding distortion effect");
+        
+        // Sélectionner tous les blocs sauf celui de la dépression
+        document.querySelectorAll('.trouble-card:not(.depression-card), .text-block:not(.depression-text)').forEach(element => {
+          element.classList.add('distortion-effect');
+          
+          // Ajouter l'effet de distorsion au texte à l'intérieur
+          element.querySelectorAll('h3, p').forEach(textElement => {
+            textElement.classList.add('text-distortion');
+          });
+        });
+      }
+      
+      // Fonction pour supprimer l'effet de distorsion
+      function removeDistortionEffect() {
+        console.log("Removing distortion effect");
+        
+        document.querySelectorAll('.trouble-card, .text-block').forEach(element => {
+          element.classList.remove('distortion-effect');
+          
+          // Supprimer l'effet de distorsion du texte à l'intérieur
+          element.querySelectorAll('h3, p').forEach(textElement => {
+            textElement.classList.remove('text-distortion');
+          });
+        });
+      }
+      
+      // Ajouter les écouteurs d'événements pour le survol
+      depressionCard.addEventListener('mouseenter', addDistortionEffect);
+      depressionCard.addEventListener('mouseleave', removeDistortionEffect);
+      depressionText.addEventListener('mouseenter', addDistortionEffect);
+      depressionText.addEventListener('mouseleave', removeDistortionEffect);
+    }
+  }
+
   // ----- Image Container Hover (for personnage section) -----
   const imagePlaceholder = document.querySelector('.image-container');
   if (imagePlaceholder) {
@@ -226,66 +358,6 @@ document.addEventListener('DOMContentLoaded', function() {
       section.style.backgroundPosition = `center ${yPos}px`;
     });
   });
-
-  // ----- Toggle Effects Button -----
-  const toggleEffectsBtn = document.getElementById('toggle-effects');
-  if (toggleEffectsBtn) {
-    // Vérifier si l'état est enregistré dans le localStorage
-    const effectsDisabled = localStorage.getItem('effectsDisabled') === 'true';
-    
-    // Appliquer l'état initial
-    if (effectsDisabled) {
-      document.body.classList.add('effects-disabled-mode');
-      toggleEffectsBtn.classList.add('effects-disabled');
-      toggleEffectsBtn.textContent = 'Augmenter l\'effet';
-      // Arrêter tous les sons
-      document.querySelectorAll('audio').forEach(audio => { 
-        audio.pause(); 
-        audio.currentTime = 0; 
-      });
-    } else {
-      // S'assurer que le bouton est dans l'état correct
-      document.body.classList.remove('effects-disabled-mode');
-      toggleEffectsBtn.classList.remove('effects-disabled');
-      toggleEffectsBtn.textContent = 'Réduire l\'effet';
-    }
-    
-    // Ajouter l'écouteur d'événement avec animation
-    toggleEffectsBtn.addEventListener('click', function() {
-      const isCurrentlyDisabled = document.body.classList.contains('effects-disabled-mode');
-      
-      // Animation du bouton au clic
-      this.classList.add('button-clicked');
-      setTimeout(() => {
-        this.classList.remove('button-clicked');
-      }, 300);
-      
-      if (isCurrentlyDisabled) {
-        // Activer les effets
-        document.body.classList.remove('effects-disabled-mode');
-        toggleEffectsBtn.classList.remove('effects-disabled');
-        toggleEffectsBtn.textContent = 'Réduire l\'effet';
-        localStorage.setItem('effectsDisabled', 'false');
-        
-        // Animation de transition
-        document.querySelectorAll('.trouble-card, .text-block').forEach(el => {
-          el.style.transition = 'all 0.5s ease';
-        });
-      } else {
-        // Désactiver les effets
-        document.body.classList.add('effects-disabled-mode');
-        toggleEffectsBtn.classList.add('effects-disabled');
-        toggleEffectsBtn.textContent = 'Augmenter l\'effet';
-        localStorage.setItem('effectsDisabled', 'true');
-        
-        // Arrêter tous les sons
-        document.querySelectorAll('audio').forEach(audio => { 
-          audio.pause(); 
-          audio.currentTime = 0; 
-        });
-      }
-    });
-  }
 
   // ----- Animation pour les Shorts YouTube -----
   const shortItems = document.querySelectorAll('.short-item');
@@ -317,6 +389,80 @@ document.addEventListener('DOMContentLoaded', function() {
     
     shortsSectionObserver.observe(shortsSection);
   }
+});
+
+// Gestion de l'accordéon des mentions légales
+function setupLegalAccordion() {
+  const accordionHeaders = document.querySelectorAll('.accordion-header');
+  
+  accordionHeaders.forEach(header => {
+    header.addEventListener('click', function() {
+      // Toggle la classe active sur le header
+      this.classList.toggle('active');
+      
+      // Récupère le contenu associé
+      const content = this.nextElementSibling;
+      
+      // Toggle la classe active sur le contenu
+      content.classList.toggle('active');
+      
+      // Change l'icône
+      const icon = this.querySelector('.accordion-icon');
+      if (this.classList.contains('active')) {
+        icon.textContent = '×'; // Symbole de multiplication quand ouvert
+      } else {
+        icon.textContent = '+'; // Symbole plus quand fermé
+      }
+    });
+  });
+}
+
+// Bouton de retour en haut de page
+function createBackToTopButton() {
+  // Créer le bouton
+  const backToTopBtn = document.createElement('button');
+  backToTopBtn.id = 'back-to-top';
+  backToTopBtn.className = 'back-to-top';
+  backToTopBtn.title = 'Retour en haut de page';
+  
+  // Créer la flèche
+  const arrow = document.createElement('i');
+  arrow.className = 'arrow-up';
+  arrow.textContent = '↑';
+  
+  // Ajouter la flèche au bouton
+  backToTopBtn.appendChild(arrow);
+  
+  // Ajouter le bouton au body
+  document.body.appendChild(backToTopBtn);
+  
+  // Fonction pour afficher/masquer le bouton
+  function toggleBackToTopButton() {
+    if (window.scrollY > 300) {
+      backToTopBtn.classList.add('visible');
+    } else {
+      backToTopBtn.classList.remove('visible');
+    }
+  }
+  
+  // Fonction pour remonter en haut de page
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+  
+  // Ajouter les écouteurs d'événements
+  window.addEventListener('scroll', toggleBackToTopButton);
+  backToTopBtn.addEventListener('click', scrollToTop);
+}
+
+// Appeler la fonction pour créer le bouton
+document.addEventListener('DOMContentLoaded', function() {
+  createBackToTopButton();
+  setupLegalAccordion();
+  setupDepressionEffect();
 });
 
 // ----- Suppression des erreurs de console liées aux publicités -----
